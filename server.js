@@ -37,7 +37,7 @@ initializeDbAndServer();
 
 // User Registration
 app.post("/register", async (request, response) => {
-  console.log(request.body)
+  console.log(request.username)
   const { username, email, name, password } = request.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   const selectUserQuery = `SELECT * FROM users WHERE username = '${username}';`;
@@ -60,7 +60,7 @@ app.post("/register", async (request, response) => {
 
 // User Login
 app.post("/login", async (request, response) => {
-  console.log(request.body)
+  console.log(request.username)
   const { username, password } = request.body;
   const selectUserQuery = `SELECT * FROM users WHERE username = '${username}';`;
   const dbUser = await database.get(selectUserQuery);
@@ -90,7 +90,7 @@ app.post("/todos", async (request, response) => {
 
 // Add a new todo
 app.post("/add-todo", async (request, response) => {
-  const { user_id, todo, status } = request.body;
+  const { user_id, todo, status,description } = request.body;
   console.log(request.body)
 
   
@@ -98,8 +98,8 @@ app.post("/add-todo", async (request, response) => {
   const startTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
   const addTodoQuery = `
-    INSERT INTO todos (id, user_id, todo, status, start_time)
-    VALUES ('${uuidv4()}', '${user_id}', '${todo}', '${status}', '${startTime}');`;
+    INSERT INTO todos (id, user_id, todo, status, start_time,description)
+    VALUES ('${uuidv4()}', '${user_id}', '${todo}', '${status}', '${startTime}','${description}');`;
     
   try {
     await database.run(addTodoQuery);
