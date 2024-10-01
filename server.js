@@ -219,3 +219,30 @@ app.delete("/delete-todo", async(request,response) => {
 
 
 
+// Get timer data for a specific todo
+app.get("/timer-data", async (request, response) => {
+  const { todo_id } = request.body; // Get the todo_id from query parameters
+  console.log(request.body);
+
+  try {
+    // Query to fetch start_time and total_time_spent
+    const getTimerDataQuery = `
+      SELECT start_time, total_time_spent 
+      FROM todos 
+      WHERE id = '${todo_id}';`;
+    
+    const timerData = await database.get(getTimerDataQuery);
+
+    if (timerData) {
+      // If the todo exists, return the timer data
+      response.send(timerData);
+    } else {
+      // If the todo doesn't exist
+      response.status(404).send({ error_msg: "Todo not found" });
+    }
+  } catch (error) {
+    // Catch any errors and send a response
+    console.error(error);
+    response.status(500).send({ error_msg: "Server error occurred" });
+  }
+});

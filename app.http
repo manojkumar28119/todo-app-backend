@@ -69,3 +69,11 @@ Content-Type: application/json
 {
   "todo_id": "53b47640-4bd2-4aba-b611-ca51fe2a6b05"
 }
+
+### 
+GET  http://localhost:5000/timer-data
+Content-Type: application/json
+
+{
+  "todo_id": "655f7868-182c-4441-891e-98d6a15c1a99"
+}
